@@ -7,7 +7,19 @@ from matrix import *
   # height and depth dimensions.
   # ====================
 def add_box( points, x, y, z, width, height, depth ):
-    pass
+    add_edge(points, x, y, z, x + width, y, z)
+    add_edge(points, x, y, z, x, y + height, z)
+    add_edge(points, x, y, z, x, y, z + depth)
+    add_edge(points, x + width, y, z, x + width, y + height, z)
+    add_edge(points, x + width, y, z, x + width, y, z + depth)
+    add_edge(points, x + width, y + height, z, x + width, y + height, z + depth)
+    add_edge(points, x, y + height, z, x + width, y + height, z)
+    add_edge(points, x, y + height, z, x, y + height, z + depth)
+    add_edge(points, x, y, z + depth, x + width, y, z + depth)
+    add_edge(points, x, y, z + depth, x, y + height, z + depth)
+    add_edge(points, x + width, y + height, z, x + width, y + height, z + depth)
+    add_edge(points, x + width, y, z + depth, x + width, y + height, z + depth)
+    add_edge(points, x, y + height, z + depth, x + width, y + height, z + depth)
 
   # ====================
   # Generates all the points along the surface
@@ -16,7 +28,19 @@ def add_box( points, x, y, z, width, height, depth ):
   # Returns a matrix of those points
   # ====================
 def generate_sphere( points, cx, cy, cz, r, step ):
-    pass
+    matrix = new_matrix(0,0)
+    rot = 2 * math.pi
+    circ = math.pi
+    while rot >= 0:
+        while circ >= 0:
+            x = r * math.cos(rot) + cx
+            y = r * math.sin(rot) * math.cos(circ) + cy
+            z = r * math.sin(rot) * math.sin(circ) + cz
+            add_point( matrix, x, y, z )
+            circ = circ - step
+        rot = rot - step
+    return matrix
+                                 
 
   # ====================
   # adds all the points for a sphere with center 
